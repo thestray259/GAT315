@@ -22,6 +22,8 @@ public class BodyCreator : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             Vector3 position = Simulator.Instance.GetScreenToWorldPosition(Input.mousePosition);
 
             Body body = Instantiate(bodyPrefab, position, Quaternion.identity);
+            body.shape.size = size.value; 
+
             body.ApplyForce(Random.insideUnitCircle.normalized * speed.value, Body.eForceMode.VELOCITY);
 
             Simulator.Instance.bodies.Add(body); 
