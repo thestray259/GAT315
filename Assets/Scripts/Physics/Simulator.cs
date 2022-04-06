@@ -5,7 +5,7 @@ using UnityEngine;
 public class Simulator : Singleton<Simulator>
 {
 	//public Vector2 gravity = new Vector2(0, -9.8f); 
-	public List<Force> forces; 
+	[SerializeField] List<Force> forces; 
 
 	public List<Body> bodies { get; set; } = new List<Body>(); 
 	Camera activeCamera;

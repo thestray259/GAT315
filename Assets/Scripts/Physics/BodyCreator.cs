@@ -8,6 +8,7 @@ public class BodyCreator : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] Body bodyPrefab;
     [SerializeField] FloatData speed; 
     [SerializeField] FloatData size; 
+    [SerializeField] FloatData density; 
 
 	bool action = false;
 	bool pressed = false;
@@ -22,7 +23,8 @@ public class BodyCreator : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             Vector3 position = Simulator.Instance.GetScreenToWorldPosition(Input.mousePosition);
 
             Body body = Instantiate(bodyPrefab, position, Quaternion.identity);
-            body.shape.size = size.value; 
+            body.shape.size = size.value;
+            body.shape.density = density.value; 
 
             body.ApplyForce(Random.insideUnitCircle.normalized * speed.value, Body.eForceMode.VELOCITY);
 
