@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Simulator : Singleton<Simulator>
 {
-	[SerializeField] FloatData fixedFPS;
+	[SerializeField] IntData fixedFPS;
 	[SerializeField] StringData fps; 
 	[SerializeField] List<Force> forces;
 
@@ -21,6 +21,9 @@ public class Simulator : Singleton<Simulator>
 
     private void Update()
     {
+
+		Debug.Log(fixedDeltaTime);
+		Debug.Log(fixedFPS.value);
 		// get fps 
 		fps.value = (1.0f / Time.deltaTime).ToString("F2");
 		// add delta time to time accumulator 
@@ -29,25 +32,19 @@ public class Simulator : Singleton<Simulator>
 		forces.ForEach(force => force.ApplyForce(bodies));
 
 		// integrate physics simulation with fixed delta time 
-		//while (timeAccumulator >= fixedDeltaTime) // makes the frame rate hella slow 
+		while (timeAccumulator >= fixedDeltaTime) // makes the frame rate hella slow 
         {
-			bodies.ForEach(body =>
-			{
-				Integrator.SemiImplicitEuler(body, fixedDeltaTime);
-			});
+			bodies.ForEach(body => Integrator.SemiImplicitEuler(body, fixedDeltaTime));
 			timeAccumulator -= fixedDeltaTime;
 		}
 
 		// reset body acceleration 
-		bodies.ForEach(body =>
-		{
-			body.acceleration = Vector2.zero;
-		});
+		bodies.ForEach(body => body.acceleration = Vector2.zero);
 	}
 
     public Vector3 GetScreenToWorldPosition(Vector2 screen)
 	{
-		Vector3 world = activeCamera.ScreenToWorldPoint(screen);
-		return new Vector3(world.x, world.y, 0);
+		Vector2 world = activeCamera.ScreenToWorldPoint(screen);
+		return world;//new Vector3(world.x, world.y, 0);
 	}
 }

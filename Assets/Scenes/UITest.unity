@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6a76e2c82db3f41a31bcbc6db680dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fixedFPS: {fileID: 11400000, guid: 1d12ab467e477f047b40bcc6fa19e874, type: 2}
+  fixedFPS: {fileID: 11400000, guid: 96fba38e383e7dd409765a38ba3976c9, type: 2}
   fps: {fileID: 11400000, guid: a3031498b84f6ee4094cf88dd34482d5, type: 2}
   forces:
   - {fileID: 281416565}
