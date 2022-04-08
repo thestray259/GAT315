@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Simulator : Singleton<Simulator>
 {
-	//public Vector2 gravity = new Vector2(0, -9.8f); 
-	[SerializeField] List<Force> forces;
 	[SerializeField] FloatData fixedFPS;
 	[SerializeField] StringData fps; 
+	[SerializeField] List<Force> forces;
 
-	public float fixedDeltaTime { get => 1 / fixedFPS.value; }
+	public float fixedDeltaTime => 1.0f / fixedFPS.value;
 	public List<Body> bodies { get; set; } = new List<Body>(); 
-	private float timeAccumulator; 
+
+	private float timeAccumulator = 0; 
 	Camera activeCamera;
 
 	private void Start()
@@ -21,29 +21,28 @@ public class Simulator : Singleton<Simulator>
 
     private void Update()
     {
-		Debug.Log(1.0f / Time.deltaTime);
-
-		fps.value = (Time.frameCount / fixedDeltaTime).ToString("F1");
-
+		// get fps 
+		fps.value = (1.0f / Time.deltaTime).ToString("F2");
+		// add delta time to time accumulator 
 		timeAccumulator += Time.deltaTime; 
+
 		forces.ForEach(force => force.ApplyForce(bodies));
 
-		//while (timeAccumulator > fixedDeltaTime) // makes the frame rate hella slow 
+		// integrate physics simulation with fixed delta time 
+		//while (timeAccumulator >= fixedDeltaTime) // makes the frame rate hella slow 
         {
 			bodies.ForEach(body =>
 			{
-				//body.Step(Time.deltaTime);
-				Integrator.SemiImplicitEuler(body, Time.deltaTime);
+				Integrator.SemiImplicitEuler(body, fixedDeltaTime);
 			});
-
-			timeAccumulator = timeAccumulator - fixedDeltaTime;
-
-			bodies.ForEach(body =>
-			{
-				body.acceleration = Vector2.zero; 
-			});
+			timeAccumulator -= fixedDeltaTime;
 		}
 
+		// reset body acceleration 
+		bodies.ForEach(body =>
+		{
+			body.acceleration = Vector2.zero;
+		});
 	}
 
     public Vector3 GetScreenToWorldPosition(Vector2 screen)

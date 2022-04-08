@@ -18,8 +18,9 @@ public class GravitationForce : Force
                 Body bodyB = bodies[j];
 
                 Vector2 direction = bodyA.position - bodyB.position;
-                float distanceSqr = Mathf.Max(1, direction.sqrMagnitude);
-                float force = gravitation.value * (bodyA.mass * bodyB.mass) / distanceSqr;
+
+                float distance = Mathf.Max(1, direction.magnitude);
+                float force = gravitation.value * (bodyA.mass * bodyB.mass) / distance;
 
                 bodyA.ApplyForce(-direction.normalized * force, Body.eForceMode.FORCE); 
                 bodyB.ApplyForce(direction.normalized * force, Body.eForceMode.FORCE); 
