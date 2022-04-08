@@ -5,9 +5,13 @@ using UnityEngine;
 public class Simulator : Singleton<Simulator>
 {
 	//public Vector2 gravity = new Vector2(0, -9.8f); 
-	[SerializeField] List<Force> forces; 
+	[SerializeField] List<Force> forces;
+	[SerializeField] FloatData fixedFPS;
+	[SerializeField] StringData fps; 
 
+	public float fixedDeltaTime { get => 1 / fixedFPS.value; }
 	public List<Body> bodies { get; set; } = new List<Body>(); 
+	private float timeAccumulator; 
 	Camera activeCamera;
 
 	private void Start()
@@ -17,18 +21,29 @@ public class Simulator : Singleton<Simulator>
 
     private void Update()
     {
+		Debug.Log(1.0f / Time.deltaTime);
+
+		fps.value = (Time.frameCount / fixedDeltaTime).ToString("F1");
+
+		timeAccumulator += Time.deltaTime; 
 		forces.ForEach(force => force.ApplyForce(bodies));
 
-		bodies.ForEach(body =>
-		{
-			//body.Step(Time.deltaTime);
-			Integrator.SemiImplicitEuler(body, Time.deltaTime); 
-		});
+		//while (timeAccumulator > fixedDeltaTime) // makes the frame rate hella slow 
+        {
+			bodies.ForEach(body =>
+			{
+				//body.Step(Time.deltaTime);
+				Integrator.SemiImplicitEuler(body, Time.deltaTime);
+			});
 
-		bodies.ForEach(body =>
-		{
-			body.acceleration = Vector2.zero; 
-		});
+			timeAccumulator = timeAccumulator - fixedDeltaTime;
+
+			bodies.ForEach(body =>
+			{
+				body.acceleration = Vector2.zero; 
+			});
+		}
+
 	}
 
     public Vector3 GetScreenToWorldPosition(Vector2 screen)

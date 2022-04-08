@@ -276,6 +276,8 @@ MonoBehaviour:
   forces:
   - {fileID: 281416565}
   - {fileID: 281416567}
+  fixedFPS: {fileID: 11400000, guid: 1d12ab467e477f047b40bcc6fa19e874, type: 2}
+  fps: {fileID: 11400000, guid: a3031498b84f6ee4094cf88dd34482d5, type: 2}
 --- !u!114 &281416567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1437,7 +1439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5920143644937080930, guid: 1d599937fc532eb4a9e6f78156b1aa04, type: 3}
       propertyPath: m_Name
-      value: FixedFPS
+      value: FixedFPSint
       objectReference: {fileID: 0}
     - target: {fileID: 5920143644937080931, guid: 1d599937fc532eb4a9e6f78156b1aa04, type: 3}
       propertyPath: m_Pivot.x
@@ -1526,7 +1528,7 @@ PrefabInstance:
     - target: {fileID: 5920143644937080943, guid: 1d599937fc532eb4a9e6f78156b1aa04, type: 3}
       propertyPath: data
       value: 
-      objectReference: {fileID: 11400000, guid: 78fbb9744e5837d40b433b394df1ea42, type: 2}
+      objectReference: {fileID: 11400000, guid: 96fba38e383e7dd409765a38ba3976c9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d599937fc532eb4a9e6f78156b1aa04, type: 3}
 --- !u!224 &1787319439 stripped
