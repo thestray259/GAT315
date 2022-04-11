@@ -18,7 +18,10 @@ public class Body : MonoBehaviour
         DYNAMIC 
     }
 
+    [Tooltip("The shape for this body.")]
     public Shape shape;
+
+    public List<Spring> springs { get; set; } = new List<Spring>(); 
 
     public eBodyType bodyType { get; set; } = eBodyType.DYNAMIC; 
     public Vector2 position { get => transform.position; set => transform.position = value; }
