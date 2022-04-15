@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,13 +35,38 @@ public class Simulator : Singleton<Simulator>
 		// integrate physics simulation with fixed delta time 
 		while (timeAccumulator >= fixedDeltaTime) // makes the frame rate hella slow 
         {
-			bodies.ForEach(body => Integrator.SemiImplicitEuler(body, fixedDeltaTime));
+			bodies.ForEach(body => body.shape.color = Color.cyan);
+			Collision.CreateContacts(bodies, out var contacts);
+            contacts.ForEach(contact =>
+			{
+				contact.bodyA.shape.color = Color.magenta; 
+				contact.bodyB.shape.color = Color.magenta; 
+			});
+
+
+            bodies.ForEach(body => Integrator.SemiImplicitEuler(body, fixedDeltaTime));
 			timeAccumulator -= fixedDeltaTime;
 		}
 
 		// reset body acceleration 
 		bodies.ForEach(body => body.acceleration = Vector2.zero);
 	}
+
+    public Body GetScreenToBody(Vector3 mousePosition)
+    {
+		//
+		Body body = null;
+
+		Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+		RaycastHit2D raycastHit = Physics2D.GetRayIntersection(ray); 
+
+		if (raycastHit.collider)
+        {
+			body = raycastHit.collider.gameObject.GetComponent<Body>(); 
+        }
+
+		return body; 
+    }
 
     public Vector3 GetScreenToWorldPosition(Vector2 screen)
 	{
