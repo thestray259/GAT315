@@ -22,7 +22,6 @@ public class Simulator : Singleton<Simulator>
 
     private void Update()
     {
-
 		Debug.Log(fixedDeltaTime);
 		Debug.Log(fixedFPS.value);
 		// get fps 

@@ -472,6 +472,7 @@ GameObject:
   - component: {fileID: 281416565}
   - component: {fileID: 281416567}
   - component: {fileID: 281416568}
+  - component: {fileID: 281416569}
   m_Layer: 0
   m_Name: Simulator
   m_TagString: Untagged
@@ -549,6 +550,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed59f5f7c1ec28498958d2dd2031f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  global: {fileID: 11400000, guid: c05eafdfafcdbb141ade9593b8d91ed5, type: 2}
+  length: {fileID: 11400000, guid: 3515cd2d9441c2544833013bef4cd27f, type: 2}
+  k: {fileID: 11400000, guid: 3d4b09707c20c9b4a8db5dce130e1e37, type: 2}
+--- !u!114 &281416569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281416563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfbe567d8efb54c47ad0d864452bbffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  springK: {fileID: 11400000, guid: 3d4b09707c20c9b4a8db5dce130e1e37, type: 2}
 --- !u!1 &328464242
 GameObject:
   m_ObjectHideFlags: 0
