@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Simulator : Singleton<Simulator>
 {
+	[SerializeField] BoolData simulate; 
 	[SerializeField] IntData fixedFPS;
 	[SerializeField] StringData fps; 
 	[SerializeField] List<Force> forces;
@@ -22,10 +23,11 @@ public class Simulator : Singleton<Simulator>
 
     private void Update()
     {
-		Debug.Log(fixedDeltaTime);
-		Debug.Log(fixedFPS.value);
 		// get fps 
 		fps.value = (1.0f / Time.deltaTime).ToString("F2");
+
+		if (!simulate.value) return; 
+
 		// add delta time to time accumulator 
 		timeAccumulator += Time.deltaTime; 
 
@@ -36,11 +38,11 @@ public class Simulator : Singleton<Simulator>
         {
 			bodies.ForEach(body => body.shape.color = Color.cyan);
 			Collision.CreateContacts(bodies, out var contacts);
-            contacts.ForEach(contact =>
+            /*contacts.ForEach(contact =>
 			{
 				contact.bodyA.shape.color = Color.magenta; 
 				contact.bodyB.shape.color = Color.magenta; 
-			});
+			});*/
 			Collision.SeperateContacts(contacts); 
 			Collision.ApplyImpulses(contacts); 
 
@@ -73,4 +75,10 @@ public class Simulator : Singleton<Simulator>
 		Vector2 world = activeCamera.ScreenToWorldPoint(screen);
 		return world;//new Vector3(world.x, world.y, 0);
 	}
+
+	public void Clear()
+    {
+		bodies.ForEach(body => Destroy(body.gameObject)); // destroys bodies game objects 
+		bodies.Clear(); // removes bodies from list
+    }
 }
