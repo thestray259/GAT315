@@ -46,7 +46,11 @@ public class Simulator : Singleton<Simulator>
 			Collision.SeperateContacts(contacts); 
 			Collision.ApplyImpulses(contacts); 
 
-            bodies.ForEach(body => Integrator.SemiImplicitEuler(body, fixedDeltaTime));
+            bodies.ForEach(body =>
+			{
+				Integrator.SemiImplicitEuler(body, fixedDeltaTime);
+				body.position = body.position.Wrap(-GetScreenSize() * 0.5f, GetScreenSize() * 0.5f);
+			});
 			timeAccumulator -= fixedDeltaTime;
 		}
 
@@ -75,6 +79,11 @@ public class Simulator : Singleton<Simulator>
 		Vector2 world = activeCamera.ScreenToWorldPoint(screen);
 		return world;//new Vector3(world.x, world.y, 0);
 	}
+
+	public Vector2 GetScreenSize()
+    {
+		return activeCamera.ViewportToWorldPoint(Vector2.one) * 2;
+    }
 
 	public void Clear()
     {
