@@ -13,7 +13,7 @@ public class QuadtreeNode
     QuadtreeNode northwest; 
     QuadtreeNode southeast; 
     QuadtreeNode southwest;
-    bool subdivided = true; 
+    bool subdivided = false; 
 
     public QuadtreeNode(AABB aabb, int capacity, int level)
     {
