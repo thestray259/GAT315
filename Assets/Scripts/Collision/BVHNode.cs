@@ -19,12 +19,26 @@ public class BVHNode
 
     public void ComputeBoundary()
     {
+        if (nodeBodies.Count > 0) 
+        {
+            nodeAABB.center = nodeBodies[0].position;
+            nodeAABB.size = Vector3.zero;
 
+            nodeBodies.ForEach(body => this.nodeAABB.Expand(body.shape.GetAABB(body.position)));
+        }
     }
 
     public void Split()
     {
+        int length = nodeBodies.Count;
+        int half = length / 2;
+        if (half >= 1)
+        {
+            left = new BVHNode(nodeBodies.GetRange(0, half)); // first half
+            right = new BVHNode(nodeBodies.GetRange(length - half, half)); // second half 
 
+            nodeBodies.Clear();
+        }
     }
 
     public void Query(AABB aabb, List<Body> results)

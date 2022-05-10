@@ -16,7 +16,7 @@ public class Simulator : Singleton<Simulator>
 	private float timeAccumulator = 0; 
 	Camera activeCamera;
 
-	BroadPhase broadPhase = new Quadtree(); // set to BBH 
+	BroadPhase broadPhase = new BVH(); // set to BBH 
 
 	private void Start()
 	{
