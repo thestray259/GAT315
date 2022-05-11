@@ -133,8 +133,8 @@ public class Collision
 
             Vector2 impulse = contact.normal * impulseMagnitude;
 
-            contact.bodyA.ApplyForce(contact.bodyA.velocity + (impulse * contact.bodyA.inverseMass), Body.eForceMode.VELOCITY);
-            contact.bodyB.ApplyForce(contact.bodyB.velocity - (impulse * contact.bodyB.inverseMass), Body.eForceMode.VELOCITY);
+            contact.bodyA.ApplyForce(contact.bodyA.velocity + impulse * contact.bodyA.inverseMass, Body.eForceMode.VELOCITY);
+            contact.bodyB.ApplyForce(contact.bodyB.velocity - impulse * contact.bodyB.inverseMass, Body.eForceMode.VELOCITY);
         }
     }
 }

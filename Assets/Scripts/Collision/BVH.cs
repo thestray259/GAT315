@@ -25,7 +25,7 @@ public class BVH : BroadPhase
     public override void Query(AABB aabb, List<Body> results)
     {
         rootNode.Query(aabb, results);
-        queryResultCount = queryResultCount + results.Count;
+        queryResultCount += results.Count;
     }
 
     public override void Query(Body body, List<Body> results)

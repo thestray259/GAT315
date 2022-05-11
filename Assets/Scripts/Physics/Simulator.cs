@@ -8,7 +8,9 @@ public class Simulator : Singleton<Simulator>
 	[SerializeField] BoolData simulate; 
 	[SerializeField] IntData fixedFPS;
 	[SerializeField] StringData fps; 
+	[SerializeField] StringData collisionInfo; 
 	[SerializeField] List<Force> forces;
+	[SerializeField] EnumData broadPhaseType; 
 
 	public float fixedDeltaTime => 1.0f / fixedFPS.value;
 	public List<Body> bodies { get; set; } = new List<Body>(); 
@@ -16,6 +18,7 @@ public class Simulator : Singleton<Simulator>
 	private float timeAccumulator = 0; 
 	Camera activeCamera;
 
+	BroadPhase[] broadPhases = { new Quadtree(), new BVH(), new NullBroadPhase() };
 	BroadPhase broadPhase = new BVH(); // set to BBH 
 
 	private void Start()
@@ -35,7 +38,9 @@ public class Simulator : Singleton<Simulator>
 
 		forces.ForEach(force => force.ApplyForce(bodies));
 
-		Vector2 screenSize = GetScreenSize(); 
+		Vector2 screenSize = GetScreenSize();
+
+		broadPhase = broadPhases[broadPhaseType.value]; 
 
 		// integrate physics simulation with fixed delta time 
 		while (timeAccumulator >= fixedDeltaTime)
@@ -48,7 +53,6 @@ public class Simulator : Singleton<Simulator>
 
 			bodies.ForEach(body => body.shape.color = Color.cyan);
 
-			//Collision.CreateContacts(bodies, out var contacts);
 			Collision.SeperateContacts(contacts); 
 			Collision.ApplyImpulses(contacts); 
 
@@ -65,6 +69,7 @@ public class Simulator : Singleton<Simulator>
         // reset body acceleration 
         bodies.ForEach(body => body.acceleration = Vector2.zero);
 		broadPhase.Draw();
+		collisionInfo.value = broadPhase.queryResultCount + "/" + bodies.Count; 
 	}
 
     public Body GetScreenToBody(Vector3 mousePosition)
@@ -80,6 +85,9 @@ public class Simulator : Singleton<Simulator>
 			body = raycastHit.collider.gameObject.GetComponent<Body>(); 
         }
 
+		//Debug.Log(ray);
+		//Debug.Log("body is:" + body);
+	
 		return body; 
     }
 
